@@ -1,9 +1,11 @@
 class Main{
 
-	constructor(){
+	constructor(fila,columna){
+		this.tableros;
+		this.turno;
+		this.fila=fila;
+		this.columna=columna;
 		this.turno_inicial=(Diccionario.turno_inicial==2)?Util.numeroAleatorio(0,1):Diccionario.turno_inicial;
-		this.dimencionar();
-		this.iniciarJuego();
 	}
 
 	dimencionar(){
@@ -16,7 +18,10 @@ class Main{
 	}
 
 
-	iniciarJuego(){
+	iniciarJuego(dimencionar){
+		if(dimencionar){
+			this.dimencionar();
+		}
 		this.tableros=[new Tablero(this.filas,this.columnas),new Tablero(this.filas,this.columnas)];
 		this.turno=this.turno_inicial;
 		this.tableros[0].vaciar();
@@ -41,7 +46,7 @@ class Main{
 				}
 			}else
 			if(estado==0){
-				alert(this.jugador()+" Fallo en el disparo");
+				alert(this.jugador()+" Fallo en el disparo "+(fila+1)+","+(columna+1));
 			}else
 			if(estado==1){
 				alert(this.jugador()+" Destruyo el barco "+(fila+1)+","+(columna+1));
@@ -50,6 +55,9 @@ class Main{
 				this.cambiarTurno();
 			}
 			ganador=this.tableros[this.turnoOponente()].estaVacio()?this.turno:-1;
+			//Mostrar tablero en consola
+			console.log("CPU\n"+this.tableros[0].tabla);
+			console.log("\nJUGADOR\n"+this.tableros[1].tabla);
 		}while(ganador==-1 || invalido);
 		alert("El ganador es el "+(ganador==1?"Jugador":"CPU"));
 	}
@@ -107,3 +115,6 @@ class Main{
 	}
 
 }
+
+var main=new Main(); // Inciar juego
+this.main.iniciarJuego(true);
