@@ -79,11 +79,9 @@ class Tablero{
 		if(!this.posicionValida(fila,columna)){
 			return -1;
 		}
+		this.tabla[fila][columna].tiro=true;
 		if(this.hayBarco(fila,columna)){
-			this.tabla[fila][columna]={
-				texto: Diccionario.barco_destruido,
-				tiro: true
-			}
+			this.tabla[fila][columna].texto=Diccionario.barco_destruido;
 			this.total_barcos--;
 			this.tabla[fila][columna].texto=Diccionario.agua;
 			return 1;
