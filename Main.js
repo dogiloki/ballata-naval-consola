@@ -32,7 +32,7 @@ class Main{
 		this.turno=this.turno_inicial;
 		alert("Comienza el juego!!!");
 		let ganador;
-		let invalido
+		let invalido;
 		do{
 			invalido=false;
 			let coordenadas=this.obtenerCoordenada("Disparando\nTus barcos: "+this.tableros[this.turno].total_barcos+"\nBarcos del oponente: "+this.tableros[this.turnoOponente()].total_barcos,false);
@@ -51,9 +51,6 @@ class Main{
 			if(estado==1){
 				alert(this.jugador()+" Destruyo el barco "+(fila+1)+","+(columna+1));
 			}
-			if(!invalido){
-				this.cambiarTurno();
-			}
 			ganador=this.tableros[this.turnoOponente()].estaVacio()?this.turno:-1;
 			if(ganador!=-1){
 				alert("El ganador es el "+(ganador==1?"Jugador":"CPU"));
@@ -61,6 +58,9 @@ class Main{
 			//Mostrar tablero en consola
 			console.log("CPU\n",this.tableros[0]);
 			console.log("\nJUGADOR\n",this.tableros[1]);
+			if(!invalido){
+				this.cambiarTurno();
+			}
 		}while(ganador==-1 || invalido);
 	}
 
