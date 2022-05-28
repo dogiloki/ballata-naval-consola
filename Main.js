@@ -55,11 +55,13 @@ class Main{
 				this.cambiarTurno();
 			}
 			ganador=this.tableros[this.turnoOponente()].estaVacio()?this.turno:-1;
+			if(ganador==-1){
+				alert("El ganador es el "+(ganador==1?"Jugador":"CPU"));
+			}
 			//Mostrar tablero en consola
 			console.log("CPU\n",this.tableros[0]);
 			console.log("\nJUGADOR\n",this.tableros[1]);
 		}while(ganador==-1 || invalido);
-		alert("El ganador es el "+(ganador==1?"Jugador":"CPU"));
 	}
 
 	obtenerCoordenada(titulo,mostrarBarcos){
