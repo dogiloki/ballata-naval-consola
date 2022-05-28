@@ -1,6 +1,7 @@
 class Main{
 
 	constructor(){
+		this.turno_inicial=(Diccionario.turno_inicial==2)?Util.numeroAleatorio(0,1):Diccionario.turno_inicial;
 		this.dimencionar();
 		this.iniciarJuego();
 	}
@@ -17,19 +18,45 @@ class Main{
 
 	iniciarJuego(){
 		this.tableros=[new Tablero(this.filas,this.columnas),new Tablero(this.filas,this.columnas)];
-		this.turnoInicial();
+		this.turno=this.turno_inicial;
 		this.tableros[0].vaciar();
 		this.tableros[1].vaciar();
 		this.posicionarBarcos();
 		this.cambiarTurno();
 		this.posicionarBarcos();
-		this.turnoInicial();
-		alert("juagr");
+		this.turno=this.turno_inicial;
+		alert("Comienza el juego!!!");
+		let ganador;
+		let invalido
+		do{
+			invalido=false;
+			let coordenadas=this.obtenerCoordenada("Disparando\nTus barcos: "+this.tableros[this.turno].total_barcos+"\nBarcos del oponente: "+this.tableros[this.turnoOponente()].total_barcos,false);
+			let fila=coordenadas.fila;
+			let columna=coordenadas.columna;
+			let estado=this.tableros[this.turnoOponente()].disparo(fila,columna);
+			if(estado==-1){
+				invalido=true;
+				if(this.turno==1){
+					alert("Posición no válida");
+				}
+			}else
+			if(estado==0){
+				alert(this.jugador()+" Fallo en el disparo");
+			}else
+			if(estado==1){
+				alert(this.jugador()+" Destruyo el barco "+(fila+1)+","+(columna+1));
+			}
+			if(!invalido){
+				this.cambiarTurno();
+			}
+			ganador=this.tableros[this.turnoOponente()].estaVacio()?this.turno:-1;
+		}while(ganador==-1 || invalido);
+		alert("El ganador es el "+(ganador==1?"Jugador":"CPU"));
 	}
 
-	obtenerCoordenada(titulo){
+	obtenerCoordenada(titulo,mostrarBarcos){
 		let posicion;
-		let mensaje=`${titulo} - ${this.jugador()}\n${this.tableros[this.turno].mostrar()}`;
+		let mensaje=`${titulo}\n${this.jugador()}\n${this.tableros[this.turno].mostrar(mostrarBarcos)}`;
 		if(this.turno==1){
 			mensaje+=`\nIngrese la fila(max ${this.filas}) y columna(max ${this.columnas}). Separado con una coma`;
 			posicion=Util.entradaDato(mensaje).replaceAll(" ","").split(",");
@@ -45,35 +72,31 @@ class Main{
 		}
 	}
 
-	turnoInicial(){
-		if(Diccionario.turno_inicial==2){
-			this.turno=Util.numeroAleatorio(0,1);
-		}else{
-			this.turno=Diccionario.turno_inicial;
-		}
-	}
-
 	cambiarTurno(){
 		this.turno=this.turno==1?0:1;
 	}
 
+	turnoOponente(){
+		return this.turno==1?0:1;
+	}
+
 	jugador(){
-		return (this.turno==1)?"Turno del jugador":"Turno del CPU";
+		return (this.turno==1)?"Jugador":"CPU";
 	}
 
 	posicionarBarcos(conta=0){
-		let coordenadas=this.obtenerCoordenada("Posicionando barco "+(conta+1));
+		let coordenadas=this.obtenerCoordenada("Posicionando barco "+(conta+1),true);
 		let fila=coordenadas.fila;
 		let columna=coordenadas.columna;
 		let estado=this.tableros[this.turno].ponerBarco(fila,columna);
 		if(estado==-1){
-			if(this.turno==0){
+			if(this.turno==1){
 				alert("Posición no válida");
 			}
 			this.posicionarBarcos(conta);
 		}else
 		if(estado==0){
-			if(this.turno==0){
+			if(this.turno==1){
 				alert("La posición ya tiene un barco");
 			}
 			this.posicionarBarcos(conta);

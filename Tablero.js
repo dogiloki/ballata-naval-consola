@@ -3,6 +3,7 @@ class Tablero{
 	constructor(filas,columnas){
 		this.filas=filas;
 		this.columnas=columnas;
+		this.total_barcos=0;
 		this.tabla=new Array(this.filas);
 		this.vaciar();
 	}
@@ -19,11 +20,19 @@ class Tablero{
 		}
 	}
 
-	mostrar(){
+	mostrar(mostrarBarcos){
 		let tablero="";
 		for(let a=0; a<this.filas; a++){
 			for(let b=0; b<this.columnas; b++){
-				tablero+=this.tabla[a][b].texto;
+				if(mostrarBarcos){
+					tablero+=this.tabla[a][b].texto;
+				}else{
+					if(this.tabla[a][b].texto==Diccionario.barco_detruido){
+						tablero+=Diccionario.barco_detruido;
+					}else{
+						tablero+=Diccionario.agua;
+					}
+				}
 			}
 			tablero+="\n";
 		}
@@ -31,16 +40,19 @@ class Tablero{
 	}
 
 	posicionValida(fila,columna){
-		return fila<this.filas && columna<this.columnas && (fila>=0 && columna>=0);
+		if(fila<this.filas && columna<this.columnas && fila>=0 && columna>=0){
+			return !this.tabla[fila][columna].tiro;
+		}else{
+			return false;
+		}
 	}
 
 	hayBarco(fila,columna){
 		return this.tabla[fila][columna].texto==Diccionario.barco;
 	}
 
-	sinBarcos(){
+	estaVacio(){
 		for(let a=0; a<this.filas; a++){
-			this.tabla[a]=new Array(this.columnas);
 			for(let b=0; b<this.columnas; b++){
 				if(this.tabla[a][b].texto==Diccionario.barco){
 					return false;
@@ -58,6 +70,7 @@ class Tablero{
 			return 0;
 		}else{
 			this.tabla[fila][columna].texto=Diccionario.barco;
+			this.total_barcos++;
 			return 1;
 		}
 	}
@@ -68,10 +81,10 @@ class Tablero{
 		}
 		if(this.hayBarco(fila,columna)){
 			this.tabla[fila][columna]={
-				texto: Diccionario.barco_detruido,
+				texto: Diccionario.barco_destruido,
 				tiro: true
 			}
-			setTimeout(1);
+			this.total_barcos--;
 			this.tabla[fila][columna].texto=Diccionario.agua;
 			return 1;
 		}else{
