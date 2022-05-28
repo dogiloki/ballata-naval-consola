@@ -9,8 +9,8 @@ class Main{
 	}
 
 	dimencionar(){
-		this.filas=prompt("Ingrese la cantidad de filas");
-		this.columnas=prompt("Ingrese la cantidad de columnas");
+		this.filas=Util.entradaDato("Ingrese la cantidad de filas",2);
+		this.columnas=Util.entradaDato("Ingrese la cantidad de columnas",2);
 		if(this.filas<Diccionario.total_barcos || this.columnas<Diccionario.total_barcos){
 			alert(`Las filas o columnas deben ser mayores o iguales a ${Diccionario.total_barcos}`);
 			this.dimencionar();
@@ -56,8 +56,8 @@ class Main{
 			}
 			ganador=this.tableros[this.turnoOponente()].estaVacio()?this.turno:-1;
 			//Mostrar tablero en consola
-			console.log("CPU\n"+this.tableros[0].tabla);
-			console.log("\nJUGADOR\n"+this.tableros[1].tabla);
+			console.log("CPU\n",this.tableros[0]);
+			console.log("\nJUGADOR\n",this.tableros[1]);
 		}while(ganador==-1 || invalido);
 		alert("El ganador es el "+(ganador==1?"Jugador":"CPU"));
 	}
@@ -74,8 +74,8 @@ class Main{
 			}
 		}else{
 			return {
-				fila: Util.numeroAleatorio(1,this.filas-1),
-				columna: Util.numeroAleatorio(1,this.columnas-1)
+				fila: Util.numeroAleatorio(0,this.filas-1),
+				columna: Util.numeroAleatorio(0,this.columnas-1)
 			}
 		}
 	}
