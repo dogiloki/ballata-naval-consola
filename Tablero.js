@@ -31,7 +31,7 @@ class Tablero{
 	}
 
 	posicionValida(fila,columna){
-		return fila<this.filas || columna<this.columnas;
+		return fila<this.filas && columna<this.columnas && (fila>=0 && columna>=0);
 	}
 
 	hayBarco(fila,columna){
@@ -71,7 +71,7 @@ class Tablero{
 				texto: Diccionario.barco_detruido,
 				tiro: true
 			}
-			sleep(3);
+			setTimeout(1);
 			this.tabla[fila][columna].texto=Diccionario.agua;
 			return 1;
 		}else{

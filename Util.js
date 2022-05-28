@@ -1,7 +1,7 @@
 class Util{
 
-	static pedirUsuario(mensaje){
-		return prompt(mensaje);
+	static entradaDato(mensaje){
+		return prompt(mensaje)??"";
 	}
 
 	static numeroAleatorio(min=0,max){
