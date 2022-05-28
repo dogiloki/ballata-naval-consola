@@ -55,7 +55,7 @@ class Main{
 				this.cambiarTurno();
 			}
 			ganador=this.tableros[this.turnoOponente()].estaVacio()?this.turno:-1;
-			if(ganador==-1){
+			if(ganador!=-1){
 				alert("El ganador es el "+(ganador==1?"Jugador":"CPU"));
 			}
 			//Mostrar tablero en consola
